@@ -1,0 +1,133 @@
+.export-results {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.export-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.export-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 2px solid #007bff;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.export-button:hover:not(:disabled) {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.export-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.export-button:disabled {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.export-button.success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.export-button.success:hover {
+  background-color: #218838;
+  border-color: #218838;
+}
+
+.export-button.error {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.export-button.error:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+}
+
+.status-message {
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-align: center;
+  max-width: 300px;
+  transition: opacity 0.2s ease;
+}
+
+.status-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.export-hint {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+  font-size: 0.875rem;
+  color: #6c757d;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .export-results {
+    margin-top: 1rem;
+    padding: 0.75rem;
+  }
+  
+  .export-button {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+    min-width: 120px;
+  }
+  
+  .status-message {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+/* Focus styles for accessibility */
+.export-button:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.export-button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.export-button:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}

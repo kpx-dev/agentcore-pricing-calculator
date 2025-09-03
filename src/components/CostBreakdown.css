@@ -1,0 +1,510 @@
+/* CostBreakdown Component Styles */
+
+.cost-breakdown {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cost-breakdown.loading {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Breakdown Header */
+.breakdown-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.breakdown-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.breakdown-description {
+  margin: 0;
+  font-size: 16px;
+  color: #666666;
+  line-height: 1.5;
+}
+
+/* Loading State */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Breakdown Content */
+.breakdown-content {
+  margin-bottom: 32px;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: #666666;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.empty-state h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333333;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Cost Items */
+.cost-items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* Cost Breakdown Item */
+.cost-breakdown-item {
+  padding: 20px;
+  border: 2px solid #f1f3f4;
+  border-radius: 8px;
+  background: #fafbfc;
+  transition: all 0.2s ease;
+}
+
+.cost-breakdown-item.has-cost {
+  border-color: #e3f2fd;
+  background: #f8fdff;
+}
+
+.cost-breakdown-item.no-cost {
+  opacity: 0.6;
+}
+
+.cost-breakdown-item:hover {
+  border-color: #d1e7dd;
+  background: #f8fff9;
+}
+
+/* Cost Item Header */
+.cost-item-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.cost-item-icon {
+  font-size: 24px;
+  line-height: 1;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.cost-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cost-item-label {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.3;
+}
+
+.cost-item-description {
+  margin: 0;
+  font-size: 14px;
+  color: #666666;
+  line-height: 1.4;
+}
+
+.cost-item-amount {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.cost-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2e7d32;
+  display: block;
+  line-height: 1.2;
+}
+
+.cost-breakdown-item.no-cost .cost-value {
+  color: #999999;
+}
+
+/* Cost Item Rate */
+.cost-item-rate {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e1e5e9;
+  font-size: 13px;
+  color: #666666;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.rate-label {
+  font-weight: 500;
+}
+
+.rate-value {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  background: #f8f9fa;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* Total Cost Section */
+.total-cost-section {
+  margin-top: 32px;
+}
+
+.total-cost-divider {
+  height: 2px;
+  background: linear-gradient(to right, #e1e5e9, #007bff, #e1e5e9);
+  margin-bottom: 24px;
+  border-radius: 1px;
+}
+
+.total-cost-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  background: linear-gradient(135deg, #f8fdff 0%, #e3f2fd 100%);
+  border: 2px solid #bbdefb;
+  border-radius: 12px;
+  gap: 16px;
+}
+
+.total-cost-header {
+  flex: 1;
+}
+
+.total-cost-label {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.2;
+}
+
+.total-cost-description {
+  margin: 0;
+  font-size: 14px;
+  color: #666666;
+  line-height: 1.4;
+}
+
+.total-cost-amount {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.total-cost-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1565c0;
+  display: block;
+  line-height: 1.1;
+}
+
+.total-cost-period {
+  font-size: 14px;
+  color: #666666;
+  font-weight: 500;
+  margin-top: 2px;
+  display: block;
+}
+
+/* Breakdown Footer */
+.breakdown-footer {
+  padding-top: 24px;
+  border-top: 1px solid #e1e5e9;
+}
+
+.pricing-metadata {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.pricing-source {
+  margin: 0 0 4px 0;
+  font-size: 13px;
+  color: #666666;
+}
+
+.pricing-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.pricing-link:hover {
+  text-decoration: underline;
+}
+
+.pricing-updated {
+  margin: 0;
+  font-size: 12px;
+  color: #999999;
+}
+
+.pricing-disclaimer {
+  text-align: center;
+}
+
+.pricing-disclaimer p {
+  margin: 0;
+  font-size: 12px;
+  color: #666666;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cost-breakdown {
+    margin: 16px;
+    padding: 20px;
+  }
+  
+  .breakdown-header h2 {
+    font-size: 20px;
+  }
+  
+  .breakdown-description {
+    font-size: 14px;
+  }
+  
+  .cost-breakdown-item {
+    padding: 16px;
+  }
+  
+  .cost-item-header {
+    gap: 12px;
+  }
+  
+  .cost-item-icon {
+    font-size: 20px;
+  }
+  
+  .cost-item-label {
+    font-size: 15px;
+  }
+  
+  .cost-value {
+    font-size: 16px;
+  }
+  
+  .total-cost-item {
+    padding: 20px;
+    gap: 12px;
+  }
+  
+  .total-cost-label {
+    font-size: 18px;
+  }
+  
+  .total-cost-value {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cost-breakdown {
+    margin: 8px;
+    padding: 16px;
+  }
+  
+  .cost-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .cost-item-amount {
+    align-self: flex-end;
+    text-align: left;
+  }
+  
+  .cost-item-rate {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .total-cost-item {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+  
+  .total-cost-amount {
+    align-self: flex-end;
+    text-align: right;
+  }
+}
+
+/* Focus and Accessibility */
+.pricing-link:focus-visible {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .cost-breakdown-item {
+    border-width: 2px;
+  }
+  
+  .cost-breakdown-item.has-cost {
+    border-color: #0066cc;
+  }
+  
+  .total-cost-item {
+    border-width: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .cost-breakdown-item {
+    transition: none;
+  }
+  
+  .spinner {
+    animation: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .cost-breakdown {
+    background: #2d3748;
+    color: #e2e8f0;
+  }
+  
+  .breakdown-header h2 {
+    color: #f7fafc;
+  }
+  
+  .breakdown-description,
+  .cost-item-description,
+  .total-cost-description,
+  .pricing-source,
+  .pricing-disclaimer p {
+    color: #a0aec0;
+  }
+  
+  .cost-breakdown-item {
+    background: #4a5568;
+    border-color: #718096;
+  }
+  
+  .cost-breakdown-item.has-cost {
+    background: #2c5282;
+    border-color: #3182ce;
+  }
+  
+  .cost-breakdown-item:hover {
+    background: #2f855a;
+    border-color: #38a169;
+  }
+  
+  .cost-item-label,
+  .total-cost-label {
+    color: #f7fafc;
+  }
+  
+  .cost-value {
+    color: #68d391;
+  }
+  
+  .cost-breakdown-item.no-cost .cost-value {
+    color: #718096;
+  }
+  
+  .total-cost-item {
+    background: linear-gradient(135deg, #2c5282 0%, #2a4365 100%);
+    border-color: #3182ce;
+  }
+  
+  .total-cost-value {
+    color: #63b3ed;
+  }
+  
+  .rate-value {
+    background: #4a5568;
+    color: #e2e8f0;
+  }
+  
+  .pricing-link {
+    color: #63b3ed;
+  }
+  
+  .pricing-updated {
+    color: #718096;
+  }
+}
+
+/* Print styles */
+@media print {
+  .cost-breakdown {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  
+  .pricing-link {
+    color: #000;
+    text-decoration: underline;
+  }
+  
+  .cost-breakdown-item:hover {
+    background: inherit;
+    border-color: inherit;
+  }
+}
