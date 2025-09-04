@@ -3,6 +3,7 @@ import { UsageParameters, CostBreakdown } from '../types';
 import { calculateCostBreakdown, DEFAULT_USAGE, sanitizeUsageParameters } from '../utils/pricing-utils';
 import { UsageInputForm, CostBreakdown as CostBreakdownComponent, ExportResults } from './index';
 import './PricingCalculator.css';
+import './ErrorBoundary.css';
 
 /**
  * Props for the PricingCalculator component

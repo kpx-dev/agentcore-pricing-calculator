@@ -1,0 +1,21 @@
+{
+  "short_name": "Bedrock Calculator",
+  "name": "AWS Bedrock AgentCore Pricing Calculator",
+  "description": "Estimate your monthly costs for AWS Bedrock AgentCore services",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1976d2",
+  "background_color": "#fafafa",
+  "orientation": "portrait-primary",
+  "categories": ["business", "productivity", "utilities"],
+  "lang": "en-US",
+  "scope": "/",
+  "prefer_related_applications": false
+}
