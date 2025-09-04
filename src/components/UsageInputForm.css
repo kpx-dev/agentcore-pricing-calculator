@@ -1,39 +1,65 @@
-/* UsageInputForm Component Styles */
+/* UsageInputForm Component Styles - Mobile First */
 
 .usage-input-form {
   max-width: 600px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 16px;
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Form Header */
+@media (min-width: 768px) {
+  .usage-input-form {
+    padding: 24px;
+  }
+}
+
+/* Form Header - Mobile First */
 .form-header {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   text-align: center;
 }
 
 .form-header h2 {
   margin: 0 0 8px 0;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   color: #1a1a1a;
 }
 
 .form-description {
   margin: 0;
-  font-size: 16px;
+  font-size: 14px;
   color: #666666;
   line-height: 1.5;
 }
 
-/* Input Form */
+@media (min-width: 768px) {
+  .form-header {
+    margin-bottom: 32px;
+  }
+  
+  .form-header h2 {
+    font-size: 24px;
+  }
+  
+  .form-description {
+    font-size: 16px;
+  }
+}
+
+/* Input Form - Mobile First */
 .input-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .input-form {
+    gap: 24px;
+  }
 }
 
 /* Input Group */
@@ -71,16 +97,25 @@
   border-radius: 4px;
 }
 
-/* Input Field */
+/* Input Field - Mobile First */
 .input-field {
-  padding: 12px 16px;
-  font-size: 16px;
+  padding: 10px 14px;
+  font-size: 16px; /* Prevent zoom on iOS */
   border: 2px solid #e1e5e9;
   border-radius: 6px;
   background: #ffffff;
   color: #333333;
   transition: all 0.2s ease;
   font-family: inherit;
+  min-height: 44px; /* Ensure minimum touch target size */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .input-field {
+    padding: 12px 16px;
+  }
 }
 
 .input-field:focus {
@@ -123,11 +158,18 @@
   font-size: 14px;
 }
 
-/* Form Footer */
+/* Form Footer - Mobile First */
 .form-footer {
-  margin-top: 32px;
-  padding-top: 24px;
+  margin-top: 24px;
+  padding-top: 20px;
   border-top: 1px solid #e1e5e9;
+}
+
+@media (min-width: 768px) {
+  .form-footer {
+    margin-top: 32px;
+    padding-top: 24px;
+  }
 }
 
 .form-note {
@@ -138,37 +180,8 @@
   line-height: 1.5;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .usage-input-form {
-    margin: 16px;
-    padding: 20px;
-  }
-  
-  .form-header h2 {
-    font-size: 20px;
-  }
-  
-  .form-description {
-    font-size: 14px;
-  }
-  
-  .input-form {
-    gap: 20px;
-  }
-  
-  .input-field {
-    padding: 10px 14px;
-    font-size: 16px; /* Prevent zoom on iOS */
-  }
-}
-
+/* Additional Mobile Responsive Adjustments */
 @media (max-width: 480px) {
-  .usage-input-form {
-    margin: 8px;
-    padding: 16px;
-  }
-  
   .input-label {
     flex-direction: column;
     align-items: flex-start;
@@ -184,6 +197,31 @@
 .input-field:focus-visible {
   outline: 2px solid #007bff;
   outline-offset: 2px;
+}
+
+/* Enhanced focus styles for better accessibility */
+.input-field:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+/* Ensure sufficient color contrast */
+.input-field::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+/* Screen reader improvements */
+.input-group[aria-invalid="true"] .input-field {
+  border-color: #dc3545;
+}
+
+/* Focus management for error states */
+.input-error:focus-within {
+  outline: 2px solid #dc3545;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* High contrast mode support */

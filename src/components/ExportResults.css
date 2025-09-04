@@ -1,9 +1,17 @@
+/* ExportResults Component Styles - Mobile First */
 .export-results {
-  margin-top: 1.5rem;
-  padding: 1rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   background-color: #f9f9f9;
+}
+
+@media (min-width: 768px) {
+  .export-results {
+    margin-top: 1.5rem;
+    padding: 1rem;
+  }
 }
 
 .export-actions {
@@ -14,8 +22,8 @@
 }
 
 .export-button {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.9rem;
   font-weight: 500;
   border: 2px solid #007bff;
   border-radius: 6px;
@@ -23,11 +31,20 @@
   color: white;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 140px;
+  min-width: 120px;
+  min-height: 44px; /* Ensure minimum touch target size */
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .export-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    min-width: 140px;
+  }
 }
 
 .export-button:hover:not(:disabled) {
@@ -68,13 +85,20 @@
 }
 
 .status-message {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.8rem;
   border-radius: 4px;
   text-align: center;
   max-width: 300px;
   transition: opacity 0.2s ease;
+}
+
+@media (min-width: 768px) {
+  .status-message {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
 }
 
 .status-message.success {
@@ -98,24 +122,7 @@
   font-style: italic;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .export-results {
-    margin-top: 1rem;
-    padding: 0.75rem;
-  }
-  
-  .export-button {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.9rem;
-    min-width: 120px;
-  }
-  
-  .status-message {
-    font-size: 0.8rem;
-    padding: 0.4rem 0.8rem;
-  }
-}
+/* Mobile responsive design is now handled in the base styles above */
 
 /* Focus styles for accessibility */
 .export-button:focus {
