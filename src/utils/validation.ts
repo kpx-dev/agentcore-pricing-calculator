@@ -29,30 +29,86 @@ export const VALIDATION_MESSAGES = {
  * Validation constraints for different input types
  */
 export const VALIDATION_CONSTRAINTS = {
-  agentInvocations: {
+  // Runtime consumption
+  runtimeCpuHours: {
     min: 0,
-    max: 1000000000, // 1 billion
-    maxDecimalPlaces: 0,
-  },
-  knowledgeBaseQueries: {
-    min: 0,
-    max: 1000000000, // 1 billion
-    maxDecimalPlaces: 0,
-  },
-  actionGroupExecutions: {
-    min: 0,
-    max: 1000000000, // 1 billion
-    maxDecimalPlaces: 0,
-  },
-  storageGB: {
-    min: 0,
-    max: 1000000, // 1 million GB
+    max: 100000, // 100k vCPU-hours
     maxDecimalPlaces: 2,
   },
-  dataIngestionGB: {
+  runtimeMemoryGBHours: {
     min: 0,
-    max: 1000000, // 1 million GB
+    max: 1000000, // 1M GB-hours
     maxDecimalPlaces: 2,
+  },
+  
+  // Browser Tool consumption
+  browserToolCpuHours: {
+    min: 0,
+    max: 100000, // 100k vCPU-hours
+    maxDecimalPlaces: 2,
+  },
+  browserToolMemoryGBHours: {
+    min: 0,
+    max: 1000000, // 1M GB-hours
+    maxDecimalPlaces: 2,
+  },
+  
+  // Code Interpreter consumption
+  codeInterpreterCpuHours: {
+    min: 0,
+    max: 100000, // 100k vCPU-hours
+    maxDecimalPlaces: 2,
+  },
+  codeInterpreterMemoryGBHours: {
+    min: 0,
+    max: 1000000, // 1M GB-hours
+    maxDecimalPlaces: 2,
+  },
+  
+  // Gateway API invocations
+  gatewayApiInvocations: {
+    min: 0,
+    max: 100000000, // 100 million
+    maxDecimalPlaces: 0,
+  },
+  gatewaySearchApiInvocations: {
+    min: 0,
+    max: 100000000, // 100 million
+    maxDecimalPlaces: 0,
+  },
+  gatewayToolIndexing: {
+    min: 0,
+    max: 100000, // 100k tools
+    maxDecimalPlaces: 0,
+  },
+  
+  // Identity token requests
+  identityTokenRequests: {
+    min: 0,
+    max: 100000000, // 100 million
+    maxDecimalPlaces: 0,
+  },
+  
+  // Memory service parameters
+  memoryShortTermEvents: {
+    min: 0,
+    max: 100000000, // 100 million events
+    maxDecimalPlaces: 0,
+  },
+  memoryLongTermStorageBuiltIn: {
+    min: 0,
+    max: 100000000, // 100 million memories
+    maxDecimalPlaces: 0,
+  },
+  memoryLongTermStorageCustom: {
+    min: 0,
+    max: 100000000, // 100 million memories
+    maxDecimalPlaces: 0,
+  },
+  memoryLongTermRetrievals: {
+    min: 0,
+    max: 100000000, // 100 million retrievals
+    maxDecimalPlaces: 0,
   },
 } as const;
 

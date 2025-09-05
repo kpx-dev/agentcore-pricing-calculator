@@ -18,39 +18,57 @@ import { PricingRates } from '../types';
 
 export const BEDROCK_AGENTCORE_PRICING: PricingRates = {
   /**
-   * Agent Invocations
-   * Cost per 1,000 agent invocations
-   * Each invocation represents a single request to an agent
+   * Runtime - Consumption Based
+   * CPU: $0.0895 per vCPU-hour
+   * Memory: $0.00945 per GB-hour
    */
-  agentInvocationRate: 0.00025,
+  runtimeCpuRate: 0.0895,
+  runtimeMemoryRate: 0.00945,
 
   /**
-   * Knowledge Base Queries
-   * Cost per 1,000 knowledge base queries
-   * Each query represents a search against the knowledge base
+   * Browser Tool - Consumption Based
+   * CPU: $0.0895 per vCPU-hour
+   * Memory: $0.00945 per GB-hour
    */
-  knowledgeBaseQueryRate: 0.0004,
+  browserToolCpuRate: 0.0895,
+  browserToolMemoryRate: 0.00945,
 
   /**
-   * Action Group Executions
-   * Cost per 1,000 action group executions
-   * Each execution represents running an action group function
+   * Code Interpreter - Consumption Based
+   * CPU: $0.0895 per vCPU-hour
+   * Memory: $0.00945 per GB-hour
    */
-  actionGroupExecutionRate: 0.00035,
+  codeInterpreterCpuRate: 0.0895,
+  codeInterpreterMemoryRate: 0.00945,
 
   /**
-   * Knowledge Base Storage
-   * Cost per GB per month for storing knowledge base data
-   * Charged monthly for the amount of data stored
+   * Gateway - Consumption Based
+   * API Invocations (ListTools, InvokeTool): $0.005 per 1,000 invocations
+   * Search API: $0.025 per 1,000 invocations
+   * Tool Indexing: $0.02 per 100 tools indexed per month
    */
-  storageRatePerGB: 0.10,
+  gatewayApiInvocationRate: 0.005,
+  gatewaySearchApiRate: 0.025,
+  gatewayToolIndexingRate: 0.02,
 
   /**
-   * Data Ingestion
-   * Cost per GB for ingesting data into knowledge bases
-   * One-time charge when data is first ingested
+   * Identity - Consumption Based
+   * Token or API key requests for non-AWS resources: $0.010 per 1,000 requests
+   * Note: AgentCore Identity is available at no additional charge when used through AgentCore Runtime or Gateway
    */
-  dataIngestionRatePerGB: 0.20,
+  identityTokenRequestRate: 0.010,
+
+  /**
+   * Memory - Consumption Based
+   * Short-Term Memory: $0.25 per 1,000 new events
+   * Long-Term Memory Storage (Built-in): $0.75 per 1,000 memories stored per month
+   * Long-Term Memory Storage (Custom): $0.25 per 1,000 memories stored per month
+   * Long-Term Memory Retrieval: $0.50 per 1,000 memory retrievals
+   */
+  memoryShortTermEventRate: 0.25,
+  memoryLongTermStorageBuiltInRate: 0.75,
+  memoryLongTermStorageCustomRate: 0.25,
+  memoryLongTermRetrievalRate: 0.50,
 
   /**
    * Metadata

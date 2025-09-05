@@ -41,50 +41,142 @@ interface CostBreakdownItemConfig {
  * Configuration for all cost breakdown items
  */
 const COST_BREAKDOWN_ITEMS: CostBreakdownItemConfig[] = [
+  // Runtime costs
   {
-    key: 'agentInvocationsCost',
-    label: 'Agent Invocations',
-    description: 'Cost for agent invocations and processing',
-    rateLabel: 'Rate per 1,000 invocations',
-    rateValue: BEDROCK_AGENTCORE_PRICING.agentInvocationRate,
-    rateUnit: '/ 1K invocations',
-    icon: '🤖',
+    key: 'runtimeCpuCost',
+    label: 'Runtime CPU',
+    description: 'CPU consumption for runtime execution',
+    rateLabel: 'Rate per vCPU-hour',
+    rateValue: BEDROCK_AGENTCORE_PRICING.runtimeCpuRate,
+    rateUnit: '/ vCPU-hour',
+    icon: '🖥️',
   },
   {
-    key: 'knowledgeBaseQueriesCost',
-    label: 'Knowledge Base Queries',
-    description: 'Cost for searching and retrieving from knowledge bases',
-    rateLabel: 'Rate per 1,000 queries',
-    rateValue: BEDROCK_AGENTCORE_PRICING.knowledgeBaseQueryRate,
-    rateUnit: '/ 1K queries',
+    key: 'runtimeMemoryCost',
+    label: 'Runtime Memory',
+    description: 'Memory consumption for runtime execution',
+    rateLabel: 'Rate per GB-hour',
+    rateValue: BEDROCK_AGENTCORE_PRICING.runtimeMemoryRate,
+    rateUnit: '/ GB-hour',
+    icon: '💾',
+  },
+  
+  // Browser Tool costs
+  {
+    key: 'browserToolCpuCost',
+    label: 'Browser Tool CPU',
+    description: 'CPU consumption for browser tool operations',
+    rateLabel: 'Rate per vCPU-hour',
+    rateValue: BEDROCK_AGENTCORE_PRICING.browserToolCpuRate,
+    rateUnit: '/ vCPU-hour',
+    icon: '🌐',
+  },
+  {
+    key: 'browserToolMemoryCost',
+    label: 'Browser Tool Memory',
+    description: 'Memory consumption for browser tool operations',
+    rateLabel: 'Rate per GB-hour',
+    rateValue: BEDROCK_AGENTCORE_PRICING.browserToolMemoryRate,
+    rateUnit: '/ GB-hour',
+    icon: '🧠',
+  },
+  
+  // Code Interpreter costs
+  {
+    key: 'codeInterpreterCpuCost',
+    label: 'Code Interpreter CPU',
+    description: 'CPU consumption for code interpreter operations',
+    rateLabel: 'Rate per vCPU-hour',
+    rateValue: BEDROCK_AGENTCORE_PRICING.codeInterpreterCpuRate,
+    rateUnit: '/ vCPU-hour',
+    icon: '⚙️',
+  },
+  {
+    key: 'codeInterpreterMemoryCost',
+    label: 'Code Interpreter Memory',
+    description: 'Memory consumption for code interpreter operations',
+    rateLabel: 'Rate per GB-hour',
+    rateValue: BEDROCK_AGENTCORE_PRICING.codeInterpreterMemoryRate,
+    rateUnit: '/ GB-hour',
+    icon: '🧠',
+  },
+  
+  // Gateway costs
+  {
+    key: 'gatewayApiInvocationsCost',
+    label: 'Gateway API Invocations',
+    description: 'Cost for ListTools and InvokeTool API calls',
+    rateLabel: 'Rate per 1,000 invocations',
+    rateValue: BEDROCK_AGENTCORE_PRICING.gatewayApiInvocationRate,
+    rateUnit: '/ 1K invocations',
+    icon: '🔗',
+  },
+  {
+    key: 'gatewaySearchApiCost',
+    label: 'Gateway Search API',
+    description: 'Cost for Search API calls',
+    rateLabel: 'Rate per 1,000 invocations',
+    rateValue: BEDROCK_AGENTCORE_PRICING.gatewaySearchApiRate,
+    rateUnit: '/ 1K invocations',
     icon: '🔍',
   },
   {
-    key: 'actionGroupExecutionsCost',
-    label: 'Action Group Executions',
-    description: 'Cost for executing action group functions',
-    rateLabel: 'Rate per 1,000 executions',
-    rateValue: BEDROCK_AGENTCORE_PRICING.actionGroupExecutionRate,
-    rateUnit: '/ 1K executions',
+    key: 'gatewayToolIndexingCost',
+    label: 'Gateway Tool Indexing',
+    description: 'Cost for indexing tools per month',
+    rateLabel: 'Rate per 100 tools per month',
+    rateValue: BEDROCK_AGENTCORE_PRICING.gatewayToolIndexingRate,
+    rateUnit: '/ 100 tools/month',
+    icon: '📚',
+  },
+  
+  // Identity costs
+  {
+    key: 'identityTokenRequestsCost',
+    label: 'Identity Token Requests',
+    description: 'Cost for token/API key requests for non-AWS resources',
+    rateLabel: 'Rate per 1,000 requests',
+    rateValue: BEDROCK_AGENTCORE_PRICING.identityTokenRequestRate,
+    rateUnit: '/ 1K requests',
+    icon: '🔐',
+  },
+  
+  // Memory service costs
+  {
+    key: 'memoryShortTermEventsCost',
+    label: 'Memory Short-Term Events',
+    description: 'Cost for new short-term memory events',
+    rateLabel: 'Rate per 1,000 events',
+    rateValue: BEDROCK_AGENTCORE_PRICING.memoryShortTermEventRate,
+    rateUnit: '/ 1K events',
     icon: '⚡',
   },
   {
-    key: 'storageCost',
-    label: 'Knowledge Base Storage',
-    description: 'Monthly cost for storing knowledge base data',
-    rateLabel: 'Rate per GB per month',
-    rateValue: BEDROCK_AGENTCORE_PRICING.storageRatePerGB,
-    rateUnit: '/ GB / month',
-    icon: '💾',
+    key: 'memoryLongTermStorageBuiltInCost',
+    label: 'Memory Long-Term Storage (Built-in)',
+    description: 'Cost for memories stored using built-in strategies',
+    rateLabel: 'Rate per 1,000 memories per month',
+    rateValue: BEDROCK_AGENTCORE_PRICING.memoryLongTermStorageBuiltInRate,
+    rateUnit: '/ 1K memories/month',
+    icon: '🧠',
   },
   {
-    key: 'dataIngestionCost',
-    label: 'Data Ingestion',
-    description: 'One-time cost for ingesting data into knowledge bases',
-    rateLabel: 'Rate per GB',
-    rateValue: BEDROCK_AGENTCORE_PRICING.dataIngestionRatePerGB,
-    rateUnit: '/ GB',
-    icon: '📥',
+    key: 'memoryLongTermStorageCustomCost',
+    label: 'Memory Long-Term Storage (Custom)',
+    description: 'Cost for memories stored using custom strategies',
+    rateLabel: 'Rate per 1,000 memories per month',
+    rateValue: BEDROCK_AGENTCORE_PRICING.memoryLongTermStorageCustomRate,
+    rateUnit: '/ 1K memories/month',
+    icon: '🎯',
+  },
+  {
+    key: 'memoryLongTermRetrievalsCost',
+    label: 'Memory Long-Term Retrievals',
+    description: 'Cost for long-term memory retrievals',
+    rateLabel: 'Rate per 1,000 retrievals',
+    rateValue: BEDROCK_AGENTCORE_PRICING.memoryLongTermRetrievalRate,
+    rateUnit: '/ 1K retrievals',
+    icon: '🔍',
   },
 ];
 
@@ -164,7 +256,7 @@ export const CostBreakdown: React.FC<CostBreakdownProps> = ({
       <div className="breakdown-header">
         <h2>Cost Breakdown</h2>
         <p className="breakdown-description">
-          Detailed monthly cost estimate for AWS Bedrock AgentCore services
+          Detailed monthly cost estimate for AWS Bedrock AgentCore and Memory services
         </p>
       </div>
 
@@ -219,7 +311,7 @@ export const CostBreakdown: React.FC<CostBreakdownProps> = ({
               rel="noopener noreferrer"
               className="pricing-link"
             >
-              AWS Bedrock AgentCore Pricing
+              AWS Bedrock AgentCore & Memory Pricing
             </a>
           </p>
           <p className="pricing-updated">

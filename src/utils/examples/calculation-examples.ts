@@ -27,11 +27,20 @@ export const basicCalculationExample = () => {
   console.log('=== Basic Cost Calculation Example ===');
   
   const usage: UsageParameters = {
-    agentInvocations: 10000,      // 10K agent calls per month
-    knowledgeBaseQueries: 5000,   // 5K knowledge base queries
-    actionGroupExecutions: 2000,  // 2K action executions
-    storageGB: 10,                // 10GB of knowledge base storage
-    dataIngestionGB: 2,           // 2GB of new data ingested
+    runtimeCpuHours: 100,         // 100 vCPU-hours for runtime
+    runtimeMemoryGBHours: 500,    // 500 GB-hours for runtime memory
+    browserToolCpuHours: 50,      // 50 vCPU-hours for browser tool
+    browserToolMemoryGBHours: 250, // 250 GB-hours for browser tool memory
+    codeInterpreterCpuHours: 30,  // 30 vCPU-hours for code interpreter
+    codeInterpreterMemoryGBHours: 150, // 150 GB-hours for code interpreter memory
+    gatewayApiInvocations: 10000, // 10K gateway API calls
+    gatewaySearchApiInvocations: 5000, // 5K search API calls
+    gatewayToolIndexing: 100,     // 100 tools indexed
+    identityTokenRequests: 2000,  // 2K identity token requests
+    memoryShortTermEvents: 5000,  // 5K memory events
+    memoryLongTermStorageBuiltIn: 1000, // 1K built-in memories
+    memoryLongTermStorageCustom: 500, // 500 custom memories
+    memoryLongTermRetrievals: 2000, // 2K memory retrievals
   };
   
   const costs = calculateCostBreakdown(usage);
@@ -39,11 +48,20 @@ export const basicCalculationExample = () => {
   
   console.log('Usage Parameters:', usage);
   console.log('Cost Breakdown:');
-  console.log(`  Agent Invocations: ${formatCurrency(costs.agentInvocationsCost)}`);
-  console.log(`  Knowledge Base Queries: ${formatCurrency(costs.knowledgeBaseQueriesCost)}`);
-  console.log(`  Action Group Executions: ${formatCurrency(costs.actionGroupExecutionsCost)}`);
-  console.log(`  Storage: ${formatCurrency(costs.storageCost)}`);
-  console.log(`  Data Ingestion: ${formatCurrency(costs.dataIngestionCost)}`);
+  console.log(`  Runtime CPU: ${formatCurrency(costs.runtimeCpuCost)}`);
+  console.log(`  Runtime Memory: ${formatCurrency(costs.runtimeMemoryCost)}`);
+  console.log(`  Browser Tool CPU: ${formatCurrency(costs.browserToolCpuCost)}`);
+  console.log(`  Browser Tool Memory: ${formatCurrency(costs.browserToolMemoryCost)}`);
+  console.log(`  Code Interpreter CPU: ${formatCurrency(costs.codeInterpreterCpuCost)}`);
+  console.log(`  Code Interpreter Memory: ${formatCurrency(costs.codeInterpreterMemoryCost)}`);
+  console.log(`  Gateway API Invocations: ${formatCurrency(costs.gatewayApiInvocationsCost)}`);
+  console.log(`  Gateway Search API: ${formatCurrency(costs.gatewaySearchApiCost)}`);
+  console.log(`  Gateway Tool Indexing: ${formatCurrency(costs.gatewayToolIndexingCost)}`);
+  console.log(`  Identity Token Requests: ${formatCurrency(costs.identityTokenRequestsCost)}`);
+  console.log(`  Memory Short-Term Events: ${formatCurrency(costs.memoryShortTermEventsCost)}`);
+  console.log(`  Memory Long-Term Storage (Built-in): ${formatCurrency(costs.memoryLongTermStorageBuiltInCost)}`);
+  console.log(`  Memory Long-Term Storage (Custom): ${formatCurrency(costs.memoryLongTermStorageCustomCost)}`);
+  console.log(`  Memory Long-Term Retrievals: ${formatCurrency(costs.memoryLongTermRetrievalsCost)}`);
   console.log(`  Total Monthly Cost: ${formatCurrency(costs.totalMonthlyCost)}`);
   console.log('Validation:', validation.isValid ? 'Valid' : 'Invalid');
   if (validation.warnings.length > 0) {
@@ -59,19 +77,37 @@ export const scenarioComparisonExample = () => {
   console.log('=== Scenario Comparison Example ===');
   
   const currentUsage: UsageParameters = {
-    agentInvocations: 50000,
-    knowledgeBaseQueries: 25000,
-    actionGroupExecutions: 10000,
-    storageGB: 50,
-    dataIngestionGB: 5,
+    runtimeCpuHours: 500,
+    runtimeMemoryGBHours: 2500,
+    browserToolCpuHours: 250,
+    browserToolMemoryGBHours: 1250,
+    codeInterpreterCpuHours: 150,
+    codeInterpreterMemoryGBHours: 750,
+    gatewayApiInvocations: 50000,
+    gatewaySearchApiInvocations: 25000,
+    gatewayToolIndexing: 500,
+    identityTokenRequests: 10000,
+    memoryShortTermEvents: 25000,
+    memoryLongTermStorageBuiltIn: 5000,
+    memoryLongTermStorageCustom: 2500,
+    memoryLongTermRetrievals: 10000,
   };
   
   const scaledUsage: UsageParameters = {
-    agentInvocations: 100000,     // Double the invocations
-    knowledgeBaseQueries: 50000,  // Double the queries
-    actionGroupExecutions: 20000, // Double the executions
-    storageGB: 100,               // Double the storage
-    dataIngestionGB: 10,          // Double the ingestion
+    runtimeCpuHours: 1000,        // Double the CPU hours
+    runtimeMemoryGBHours: 5000,   // Double the memory hours
+    browserToolCpuHours: 500,     // Double the browser tool CPU
+    browserToolMemoryGBHours: 2500, // Double the browser tool memory
+    codeInterpreterCpuHours: 300, // Double the code interpreter CPU
+    codeInterpreterMemoryGBHours: 1500, // Double the code interpreter memory
+    gatewayApiInvocations: 100000, // Double the API invocations
+    gatewaySearchApiInvocations: 50000, // Double the search API calls
+    gatewayToolIndexing: 1000,    // Double the tool indexing
+    identityTokenRequests: 20000, // Double the token requests
+    memoryShortTermEvents: 50000, // Double the memory events
+    memoryLongTermStorageBuiltIn: 10000, // Double the built-in memories
+    memoryLongTermStorageCustom: 5000, // Double the custom memories
+    memoryLongTermRetrievals: 20000, // Double the memory retrievals
   };
   
   const comparison = compareScenarios(currentUsage, scaledUsage);
@@ -93,27 +129,54 @@ export const batchCalculationExample = () => {
   const scenarios: UsageParameters[] = [
     // Light usage
     {
-      agentInvocations: 1000,
-      knowledgeBaseQueries: 500,
-      actionGroupExecutions: 200,
-      storageGB: 1,
-      dataIngestionGB: 0.5,
+      runtimeCpuHours: 10,
+      runtimeMemoryGBHours: 50,
+      browserToolCpuHours: 5,
+      browserToolMemoryGBHours: 25,
+      codeInterpreterCpuHours: 3,
+      codeInterpreterMemoryGBHours: 15,
+      gatewayApiInvocations: 1000,
+      gatewaySearchApiInvocations: 500,
+      gatewayToolIndexing: 10,
+      identityTokenRequests: 200,
+      memoryShortTermEvents: 1000,
+      memoryLongTermStorageBuiltIn: 100,
+      memoryLongTermStorageCustom: 50,
+      memoryLongTermRetrievals: 200,
     },
     // Medium usage
     {
-      agentInvocations: 25000,
-      knowledgeBaseQueries: 12500,
-      actionGroupExecutions: 5000,
-      storageGB: 25,
-      dataIngestionGB: 5,
+      runtimeCpuHours: 250,
+      runtimeMemoryGBHours: 1250,
+      browserToolCpuHours: 125,
+      browserToolMemoryGBHours: 625,
+      codeInterpreterCpuHours: 75,
+      codeInterpreterMemoryGBHours: 375,
+      gatewayApiInvocations: 25000,
+      gatewaySearchApiInvocations: 12500,
+      gatewayToolIndexing: 250,
+      identityTokenRequests: 5000,
+      memoryShortTermEvents: 12500,
+      memoryLongTermStorageBuiltIn: 2500,
+      memoryLongTermStorageCustom: 1250,
+      memoryLongTermRetrievals: 5000,
     },
     // Heavy usage
     {
-      agentInvocations: 100000,
-      knowledgeBaseQueries: 50000,
-      actionGroupExecutions: 20000,
-      storageGB: 100,
-      dataIngestionGB: 20,
+      runtimeCpuHours: 1000,
+      runtimeMemoryGBHours: 5000,
+      browserToolCpuHours: 500,
+      browserToolMemoryGBHours: 2500,
+      codeInterpreterCpuHours: 300,
+      codeInterpreterMemoryGBHours: 1500,
+      gatewayApiInvocations: 100000,
+      gatewaySearchApiInvocations: 50000,
+      gatewayToolIndexing: 1000,
+      identityTokenRequests: 20000,
+      memoryShortTermEvents: 50000,
+      memoryLongTermStorageBuiltIn: 10000,
+      memoryLongTermStorageCustom: 5000,
+      memoryLongTermRetrievals: 20000,
     },
   ];
   
@@ -123,7 +186,7 @@ export const batchCalculationExample = () => {
     const cost = results[index];
     console.log(`Scenario ${index + 1} (${index === 0 ? 'Light' : index === 1 ? 'Medium' : 'Heavy'} Usage):`);
     console.log(`  Monthly Cost: ${formatCurrency(cost.totalMonthlyCost)}`);
-    console.log(`  Agent Invocations: ${scenario.agentInvocations.toLocaleString()}`);
+    console.log(`  Gateway API Invocations: ${scenario.gatewayApiInvocations.toLocaleString()}`);
   });
   console.log('');
 };
@@ -135,11 +198,20 @@ export const optimizationExample = () => {
   console.log('=== Cost Optimization Example ===');
   
   const inefficientUsage: UsageParameters = {
-    agentInvocations: 10000,
-    knowledgeBaseQueries: 150000,  // Very high query ratio
-    actionGroupExecutions: 15000,  // More executions than invocations
-    storageGB: 500,                // High storage costs
-    dataIngestionGB: 1200,         // Ingesting more than storing
+    runtimeCpuHours: 100,
+    runtimeMemoryGBHours: 5000,    // Very high memory usage
+    browserToolCpuHours: 500,      // High browser tool usage
+    browserToolMemoryGBHours: 2500,
+    codeInterpreterCpuHours: 300,
+    codeInterpreterMemoryGBHours: 1500,
+    gatewayApiInvocations: 10000,
+    gatewaySearchApiInvocations: 150000, // Very high search API usage
+    gatewayToolIndexing: 5000,     // High tool indexing
+    identityTokenRequests: 50000,  // High token requests
+    memoryShortTermEvents: 100000, // Very high memory events
+    memoryLongTermStorageBuiltIn: 50000, // High built-in memory storage
+    memoryLongTermStorageCustom: 25000, // High custom memory storage
+    memoryLongTermRetrievals: 75000, // Very high memory retrievals
   };
   
   const costs = calculateCostBreakdown(inefficientUsage);
@@ -160,11 +232,20 @@ export const projectionExample = () => {
   console.log('=== Cost Projection Example ===');
   
   const currentUsage: UsageParameters = {
-    agentInvocations: 10000,
-    knowledgeBaseQueries: 5000,
-    actionGroupExecutions: 2000,
-    storageGB: 10,
-    dataIngestionGB: 2,
+    runtimeCpuHours: 100,
+    runtimeMemoryGBHours: 500,
+    browserToolCpuHours: 50,
+    browserToolMemoryGBHours: 250,
+    codeInterpreterCpuHours: 30,
+    codeInterpreterMemoryGBHours: 150,
+    gatewayApiInvocations: 10000,
+    gatewaySearchApiInvocations: 5000,
+    gatewayToolIndexing: 100,
+    identityTokenRequests: 2000,
+    memoryShortTermEvents: 5000,
+    memoryLongTermStorageBuiltIn: 1000,
+    memoryLongTermStorageCustom: 500,
+    memoryLongTermRetrievals: 2000,
   };
   
   const growthRate = 0.15; // 15% monthly growth
@@ -185,11 +266,20 @@ export const validationExample = () => {
   console.log('=== Input Validation Example ===');
   
   const invalidInput = {
-    agentInvocations: -1000,      // Negative value
-    knowledgeBaseQueries: NaN,    // Invalid number
-    actionGroupExecutions: Infinity, // Invalid number
-    storageGB: 10,                // Valid value
-    // dataIngestionGB missing      // Missing value
+    runtimeCpuHours: -100,        // Negative value
+    runtimeMemoryGBHours: NaN,    // Invalid number
+    browserToolCpuHours: Infinity, // Invalid number
+    browserToolMemoryGBHours: 250, // Valid value
+    codeInterpreterCpuHours: 30,  // Valid value
+    codeInterpreterMemoryGBHours: 150, // Valid value
+    gatewayApiInvocations: 10000, // Valid value
+    gatewaySearchApiInvocations: 5000, // Valid value
+    gatewayToolIndexing: 100,     // Valid value
+    identityTokenRequests: 2000,  // Valid value
+    memoryShortTermEvents: 5000,  // Valid value
+    memoryLongTermStorageBuiltIn: 1000, // Valid value
+    memoryLongTermStorageCustom: 500, // Valid value
+    // memoryLongTermRetrievals missing // Missing value
   };
   
   console.log('Raw Input:', invalidInput);

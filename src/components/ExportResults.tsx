@@ -20,7 +20,7 @@ const ExportResults: React.FC<ExportResultsProps> = ({ usageParameters, costBrea
 
   const formatExportData = (): ExportData => {
     const timestamp = new Date().toISOString();
-    const summary = `AWS Bedrock AgentCore Cost Estimate - $${costBreakdown.totalMonthlyCost.toFixed(2)}/month`;
+    const summary = `AWS Bedrock AgentCore & Memory Cost Estimate - $${costBreakdown.totalMonthlyCost.toFixed(2)}/month`;
     
     return {
       timestamp,
@@ -35,22 +35,40 @@ const ExportResults: React.FC<ExportResultsProps> = ({ usageParameters, costBrea
 Generated: ${new Date(data.timestamp).toLocaleString()}
 
 USAGE PARAMETERS:
-• Agent Invocations: ${data.usageParameters.agentInvocations.toLocaleString()}/month
-• Knowledge Base Queries: ${data.usageParameters.knowledgeBaseQueries.toLocaleString()}/month
-• Action Group Executions: ${data.usageParameters.actionGroupExecutions.toLocaleString()}/month
-• Storage: ${data.usageParameters.storageGB.toLocaleString()} GB
-• Data Ingestion: ${data.usageParameters.dataIngestionGB.toLocaleString()} GB
+• Runtime CPU Hours: ${data.usageParameters.runtimeCpuHours.toLocaleString()}/month
+• Runtime Memory GB-Hours: ${data.usageParameters.runtimeMemoryGBHours.toLocaleString()}/month
+• Browser Tool CPU Hours: ${data.usageParameters.browserToolCpuHours.toLocaleString()}/month
+• Browser Tool Memory GB-Hours: ${data.usageParameters.browserToolMemoryGBHours.toLocaleString()}/month
+• Code Interpreter CPU Hours: ${data.usageParameters.codeInterpreterCpuHours.toLocaleString()}/month
+• Code Interpreter Memory GB-Hours: ${data.usageParameters.codeInterpreterMemoryGBHours.toLocaleString()}/month
+• Gateway API Invocations: ${data.usageParameters.gatewayApiInvocations.toLocaleString()}/month
+• Gateway Search API Invocations: ${data.usageParameters.gatewaySearchApiInvocations.toLocaleString()}/month
+• Gateway Tool Indexing: ${data.usageParameters.gatewayToolIndexing.toLocaleString()}/month
+• Identity Token Requests: ${data.usageParameters.identityTokenRequests.toLocaleString()}/month
+• Memory Short-Term Events: ${data.usageParameters.memoryShortTermEvents.toLocaleString()}/month
+• Memory Long-Term Storage (Built-in): ${data.usageParameters.memoryLongTermStorageBuiltIn.toLocaleString()}/month
+• Memory Long-Term Storage (Custom): ${data.usageParameters.memoryLongTermStorageCustom.toLocaleString()}/month
+• Memory Long-Term Retrievals: ${data.usageParameters.memoryLongTermRetrievals.toLocaleString()}/month
 
 COST BREAKDOWN:
-• Agent Invocations: $${data.costBreakdown.agentInvocationsCost.toFixed(2)}
-• Knowledge Base Queries: $${data.costBreakdown.knowledgeBaseQueriesCost.toFixed(2)}
-• Action Group Executions: $${data.costBreakdown.actionGroupExecutionsCost.toFixed(2)}
-• Storage: $${data.costBreakdown.storageCost.toFixed(2)}
-• Data Ingestion: $${data.costBreakdown.dataIngestionCost.toFixed(2)}
+• Runtime CPU: $${data.costBreakdown.runtimeCpuCost.toFixed(2)}
+• Runtime Memory: $${data.costBreakdown.runtimeMemoryCost.toFixed(2)}
+• Browser Tool CPU: $${data.costBreakdown.browserToolCpuCost.toFixed(2)}
+• Browser Tool Memory: $${data.costBreakdown.browserToolMemoryCost.toFixed(2)}
+• Code Interpreter CPU: $${data.costBreakdown.codeInterpreterCpuCost.toFixed(2)}
+• Code Interpreter Memory: $${data.costBreakdown.codeInterpreterMemoryCost.toFixed(2)}
+• Gateway API Invocations: $${data.costBreakdown.gatewayApiInvocationsCost.toFixed(2)}
+• Gateway Search API: $${data.costBreakdown.gatewaySearchApiCost.toFixed(2)}
+• Gateway Tool Indexing: $${data.costBreakdown.gatewayToolIndexingCost.toFixed(2)}
+• Identity Token Requests: $${data.costBreakdown.identityTokenRequestsCost.toFixed(2)}
+• Memory Short-Term Events: $${data.costBreakdown.memoryShortTermEventsCost.toFixed(2)}
+• Memory Long-Term Storage (Built-in): $${data.costBreakdown.memoryLongTermStorageBuiltInCost.toFixed(2)}
+• Memory Long-Term Storage (Custom): $${data.costBreakdown.memoryLongTermStorageCustomCost.toFixed(2)}
+• Memory Long-Term Retrievals: $${data.costBreakdown.memoryLongTermRetrievalsCost.toFixed(2)}
 
 TOTAL MONTHLY ESTIMATE: $${data.costBreakdown.totalMonthlyCost.toFixed(2)}
 
-Note: This is an estimate based on AWS Bedrock AgentCore pricing. Actual costs may vary.`;
+Note: This is an estimate based on AWS Bedrock AgentCore and Memory pricing. Actual costs may vary.`;
   };
 
   const copyToClipboard = async (text: string): Promise<boolean> => {

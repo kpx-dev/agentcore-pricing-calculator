@@ -6,11 +6,16 @@ import { UsageParameters } from '../../types';
 
 // Mock usage parameters
 const mockUsageParameters: UsageParameters = {
-  agentInvocations: 10000,
-  knowledgeBaseQueries: 5000,
-  actionGroupExecutions: 2000,
-  storageGB: 10.5,
-  dataIngestionGB: 5.2,
+  runtimeCpuHours: 100,
+  runtimeMemoryGBHours: 500,
+  browserToolCpuHours: 50,
+  browserToolMemoryGBHours: 250,
+  codeInterpreterCpuHours: 30,
+  codeInterpreterMemoryGBHours: 150,
+  gatewayApiInvocations: 10000,
+  gatewaySearchApiInvocations: 5000,
+  gatewayToolIndexing: 100,
+  identityTokenRequests: 2000,
 };
 
 // Mock onChange handler

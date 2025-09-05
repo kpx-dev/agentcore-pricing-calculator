@@ -33,11 +33,20 @@ export const compareScenarios = (baseline: UsageParameters, comparison: UsagePar
   const comparisonCosts = calculateCostBreakdown(sanitizeUsageParameters(comparison));
   
   const differences = {
-    agentInvocationsCostDiff: comparisonCosts.agentInvocationsCost - baselineCosts.agentInvocationsCost,
-    knowledgeBaseQueriesCostDiff: comparisonCosts.knowledgeBaseQueriesCost - baselineCosts.knowledgeBaseQueriesCost,
-    actionGroupExecutionsCostDiff: comparisonCosts.actionGroupExecutionsCost - baselineCosts.actionGroupExecutionsCost,
-    storageCostDiff: comparisonCosts.storageCost - baselineCosts.storageCost,
-    dataIngestionCostDiff: comparisonCosts.dataIngestionCost - baselineCosts.dataIngestionCost,
+    runtimeCpuCostDiff: comparisonCosts.runtimeCpuCost - baselineCosts.runtimeCpuCost,
+    runtimeMemoryCostDiff: comparisonCosts.runtimeMemoryCost - baselineCosts.runtimeMemoryCost,
+    browserToolCpuCostDiff: comparisonCosts.browserToolCpuCost - baselineCosts.browserToolCpuCost,
+    browserToolMemoryCostDiff: comparisonCosts.browserToolMemoryCost - baselineCosts.browserToolMemoryCost,
+    codeInterpreterCpuCostDiff: comparisonCosts.codeInterpreterCpuCost - baselineCosts.codeInterpreterCpuCost,
+    codeInterpreterMemoryCostDiff: comparisonCosts.codeInterpreterMemoryCost - baselineCosts.codeInterpreterMemoryCost,
+    gatewayApiInvocationsCostDiff: comparisonCosts.gatewayApiInvocationsCost - baselineCosts.gatewayApiInvocationsCost,
+    gatewaySearchApiCostDiff: comparisonCosts.gatewaySearchApiCost - baselineCosts.gatewaySearchApiCost,
+    gatewayToolIndexingCostDiff: comparisonCosts.gatewayToolIndexingCost - baselineCosts.gatewayToolIndexingCost,
+    identityTokenRequestsCostDiff: comparisonCosts.identityTokenRequestsCost - baselineCosts.identityTokenRequestsCost,
+    memoryShortTermEventsCostDiff: comparisonCosts.memoryShortTermEventsCost - baselineCosts.memoryShortTermEventsCost,
+    memoryLongTermStorageBuiltInCostDiff: comparisonCosts.memoryLongTermStorageBuiltInCost - baselineCosts.memoryLongTermStorageBuiltInCost,
+    memoryLongTermStorageCustomCostDiff: comparisonCosts.memoryLongTermStorageCustomCost - baselineCosts.memoryLongTermStorageCustomCost,
+    memoryLongTermRetrievalsCostDiff: comparisonCosts.memoryLongTermRetrievalsCost - baselineCosts.memoryLongTermRetrievalsCost,
     totalMonthlyCostDiff: comparisonCosts.totalMonthlyCost - baselineCosts.totalMonthlyCost,
   };
   
@@ -69,24 +78,45 @@ export const generateOptimizationSuggestions = (usage: UsageParameters): string[
   const suggestions: string[] = [];
   const costs = calculateCostBreakdown(usage);
   
-  // Analyze storage costs
-  if (costs.storageCost > costs.totalMonthlyCost * 0.5) {
-    suggestions.push('Storage costs represent more than 50% of your total bill. Consider archiving unused data or optimizing your knowledge base structure.');
+  // Analyze CPU vs Memory usage patterns
+  const totalCpuCost = costs.runtimeCpuCost + costs.browserToolCpuCost + costs.codeInterpreterCpuCost;
+  const totalMemoryCost = costs.runtimeMemoryCost + costs.browserToolMemoryCost + costs.codeInterpreterMemoryCost;
+  
+  if (totalCpuCost > totalMemoryCost * 2) {
+    suggestions.push('CPU costs are significantly higher than memory costs. Consider optimizing CPU-intensive operations or using more memory-efficient algorithms.');
   }
   
-  // Analyze data ingestion patterns
-  if (usage.dataIngestionGB > usage.storageGB * 2) {
-    suggestions.push('You are ingesting significantly more data than you store. Consider implementing data deduplication or filtering strategies.');
+  if (totalMemoryCost > totalCpuCost * 2) {
+    suggestions.push('Memory costs are significantly higher than CPU costs. Consider optimizing memory usage or using more CPU-efficient processing.');
   }
   
-  // Analyze query efficiency
-  if (usage.knowledgeBaseQueries > usage.agentInvocations * 10) {
-    suggestions.push('High knowledge base query ratio detected. Consider optimizing your agent logic to reduce redundant queries.');
+  // Analyze gateway usage efficiency
+  if (usage.gatewaySearchApiInvocations > usage.gatewayApiInvocations * 2) {
+    suggestions.push('High search API usage detected. Consider caching search results or optimizing search queries to reduce costs.');
   }
   
-  // Analyze action group usage
-  if (usage.actionGroupExecutions > usage.agentInvocations) {
-    suggestions.push('Action group executions exceed agent invocations. Verify that your action groups are being called efficiently.');
+  // Analyze tool indexing patterns
+  if (usage.gatewayToolIndexing > 1000) {
+    suggestions.push('High tool indexing volume detected. Consider consolidating similar tools or implementing incremental indexing strategies.');
+  }
+  
+  // Analyze identity token usage
+  if (usage.identityTokenRequests > usage.gatewayApiInvocations) {
+    suggestions.push('Identity token requests exceed gateway API calls. Consider implementing token caching or reuse strategies.');
+  }
+  
+  // Analyze memory usage patterns
+  const totalMemoryStorageCost = costs.memoryLongTermStorageBuiltInCost + costs.memoryLongTermStorageCustomCost;
+  if (totalMemoryStorageCost > costs.totalMonthlyCost * 0.3) {
+    suggestions.push('Memory storage costs represent more than 30% of your total bill. Consider optimizing memory retention policies or using more cost-effective storage strategies.');
+  }
+  
+  if (usage.memoryLongTermRetrievals > usage.memoryShortTermEvents * 2) {
+    suggestions.push('High memory retrieval ratio detected. Consider caching frequently accessed memories or optimizing retrieval patterns.');
+  }
+  
+  if (usage.memoryLongTermStorageBuiltIn > usage.memoryLongTermStorageCustom * 3) {
+    suggestions.push('Built-in memory storage is significantly higher than custom storage. Consider migrating to custom memory strategies for cost optimization.');
   }
   
   // General cost thresholds
@@ -110,11 +140,20 @@ export const calculateProjectedCosts = (currentUsage: UsageParameters, growthRat
     const growthMultiplier = Math.pow(1 + growthRate, month - 1);
     
     const projectedUsage: UsageParameters = {
-      agentInvocations: Math.round(currentUsage.agentInvocations * growthMultiplier),
-      knowledgeBaseQueries: Math.round(currentUsage.knowledgeBaseQueries * growthMultiplier),
-      actionGroupExecutions: Math.round(currentUsage.actionGroupExecutions * growthMultiplier),
-      storageGB: Math.round(currentUsage.storageGB * growthMultiplier),
-      dataIngestionGB: Math.round(currentUsage.dataIngestionGB * growthMultiplier),
+      runtimeCpuHours: Math.round(currentUsage.runtimeCpuHours * growthMultiplier),
+      runtimeMemoryGBHours: Math.round(currentUsage.runtimeMemoryGBHours * growthMultiplier),
+      browserToolCpuHours: Math.round(currentUsage.browserToolCpuHours * growthMultiplier),
+      browserToolMemoryGBHours: Math.round(currentUsage.browserToolMemoryGBHours * growthMultiplier),
+      codeInterpreterCpuHours: Math.round(currentUsage.codeInterpreterCpuHours * growthMultiplier),
+      codeInterpreterMemoryGBHours: Math.round(currentUsage.codeInterpreterMemoryGBHours * growthMultiplier),
+      gatewayApiInvocations: Math.round(currentUsage.gatewayApiInvocations * growthMultiplier),
+      gatewaySearchApiInvocations: Math.round(currentUsage.gatewaySearchApiInvocations * growthMultiplier),
+      gatewayToolIndexing: Math.round(currentUsage.gatewayToolIndexing * growthMultiplier),
+      identityTokenRequests: Math.round(currentUsage.identityTokenRequests * growthMultiplier),
+      memoryShortTermEvents: Math.round(currentUsage.memoryShortTermEvents * growthMultiplier),
+      memoryLongTermStorageBuiltIn: Math.round(currentUsage.memoryLongTermStorageBuiltIn * growthMultiplier),
+      memoryLongTermStorageCustom: Math.round(currentUsage.memoryLongTermStorageCustom * growthMultiplier),
+      memoryLongTermRetrievals: Math.round(currentUsage.memoryLongTermRetrievals * growthMultiplier),
     };
     
     const projectedCosts = calculateCostBreakdown(sanitizeUsageParameters(projectedUsage));
@@ -152,11 +191,20 @@ export const calculateBreakEvenAnalysis = (fixedCosts: number, revenuePerInvocat
     while (low < high && iterations < maxIterations) {
       const mid = Math.floor((low + high) / 2);
       const usage: UsageParameters = {
-        agentInvocations: mid,
-        knowledgeBaseQueries: 0,
-        actionGroupExecutions: 0,
-        storageGB: 0,
-        dataIngestionGB: 0,
+        runtimeCpuHours: mid * 0.1, // Assume 0.1 CPU hours per invocation
+        runtimeMemoryGBHours: mid * 0.5, // Assume 0.5 GB-hours per invocation
+        browserToolCpuHours: 0,
+        browserToolMemoryGBHours: 0,
+        codeInterpreterCpuHours: 0,
+        codeInterpreterMemoryGBHours: 0,
+        gatewayApiInvocations: mid,
+        gatewaySearchApiInvocations: 0,
+        gatewayToolIndexing: 0,
+        identityTokenRequests: 0,
+        memoryShortTermEvents: 0,
+        memoryLongTermStorageBuiltIn: 0,
+        memoryLongTermStorageCustom: 0,
+        memoryLongTermRetrievals: 0,
       };
       
       const costs = calculateCostBreakdown(usage);

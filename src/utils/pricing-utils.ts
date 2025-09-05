@@ -15,22 +15,31 @@ export const PRICING_CONSTANTS = {
  */
 export const USAGE_LIMITS = {
   MIN_VALUE: 0,
-  MAX_INVOCATIONS: 100_000_000, // 100 million
-  MAX_QUERIES: 100_000_000, // 100 million  
-  MAX_EXECUTIONS: 100_000_000, // 100 million
-  MAX_STORAGE_GB: 1_000_000, // 1 PB
-  MAX_INGESTION_GB: 1_000_000, // 1 PB
+  MAX_CPU_HOURS: 100_000, // 100k vCPU-hours per month
+  MAX_MEMORY_GB_HOURS: 1_000_000, // 1M GB-hours per month
+  MAX_API_INVOCATIONS: 100_000_000, // 100 million invocations
+  MAX_TOOL_INDEXING: 100_000, // 100k tools
+  MAX_TOKEN_REQUESTS: 100_000_000, // 100 million requests
 } as const;
 
 /**
  * Default usage parameters for calculator initialization
  */
 export const DEFAULT_USAGE: UsageParameters = {
-  agentInvocations: 0,
-  knowledgeBaseQueries: 0,
-  actionGroupExecutions: 0,
-  storageGB: 0,
-  dataIngestionGB: 0,
+  runtimeCpuHours: 0,
+  runtimeMemoryGBHours: 0,
+  browserToolCpuHours: 0,
+  browserToolMemoryGBHours: 0,
+  codeInterpreterCpuHours: 0,
+  codeInterpreterMemoryGBHours: 0,
+  gatewayApiInvocations: 0,
+  gatewaySearchApiInvocations: 0,
+  gatewayToolIndexing: 0,
+  identityTokenRequests: 0,
+  memoryShortTermEvents: 0,
+  memoryLongTermStorageBuiltIn: 0,
+  memoryLongTermStorageCustom: 0,
+  memoryLongTermRetrievals: 0,
 };
 
 /**
@@ -40,16 +49,24 @@ export const isValidUsageValue = (value: number, type: keyof UsageParameters): b
   if (value < USAGE_LIMITS.MIN_VALUE) return false;
   
   switch (type) {
-    case 'agentInvocations':
-      return value <= USAGE_LIMITS.MAX_INVOCATIONS;
-    case 'knowledgeBaseQueries':
-      return value <= USAGE_LIMITS.MAX_QUERIES;
-    case 'actionGroupExecutions':
-      return value <= USAGE_LIMITS.MAX_EXECUTIONS;
-    case 'storageGB':
-      return value <= USAGE_LIMITS.MAX_STORAGE_GB;
-    case 'dataIngestionGB':
-      return value <= USAGE_LIMITS.MAX_INGESTION_GB;
+    case 'runtimeCpuHours':
+    case 'browserToolCpuHours':
+    case 'codeInterpreterCpuHours':
+      return value <= USAGE_LIMITS.MAX_CPU_HOURS;
+    case 'runtimeMemoryGBHours':
+    case 'browserToolMemoryGBHours':
+    case 'codeInterpreterMemoryGBHours':
+      return value <= USAGE_LIMITS.MAX_MEMORY_GB_HOURS;
+    case 'gatewayApiInvocations':
+    case 'gatewaySearchApiInvocations':
+    case 'identityTokenRequests':
+    case 'memoryShortTermEvents':
+    case 'memoryLongTermStorageBuiltIn':
+    case 'memoryLongTermStorageCustom':
+    case 'memoryLongTermRetrievals':
+      return value <= USAGE_LIMITS.MAX_API_INVOCATIONS;
+    case 'gatewayToolIndexing':
+      return value <= USAGE_LIMITS.MAX_TOOL_INDEXING;
     default:
       return false;
   }
@@ -69,58 +86,47 @@ export const getPricingMetadata = () => ({
  */
 
 /**
- * Calculate cost for agent invocations
- * @param invocations - Number of agent invocations
+ * Calculate cost for CPU hours
+ * @param cpuHours - Number of vCPU hours
+ * @param rate - Rate per vCPU-hour
+ * @returns Cost in USD
+ */
+export const calculateCpuCost = (cpuHours: number, rate: number): number => {
+  if (cpuHours < 0) return 0;
+  return cpuHours * rate;
+};
+
+/**
+ * Calculate cost for memory hours
+ * @param memoryGBHours - Number of GB-hours
+ * @param rate - Rate per GB-hour
+ * @returns Cost in USD
+ */
+export const calculateMemoryCost = (memoryGBHours: number, rate: number): number => {
+  if (memoryGBHours < 0) return 0;
+  return memoryGBHours * rate;
+};
+
+/**
+ * Calculate cost for API invocations
+ * @param invocations - Number of API invocations
  * @param rate - Rate per 1000 invocations
  * @returns Cost in USD
  */
-export const calculateAgentInvocationsCost = (invocations: number, rate: number = BEDROCK_AGENTCORE_PRICING.agentInvocationRate): number => {
+export const calculateApiInvocationsCost = (invocations: number, rate: number): number => {
   if (invocations < 0) return 0;
   return (invocations / PRICING_CONSTANTS.UNITS_PER_THOUSAND) * rate;
 };
 
 /**
- * Calculate cost for knowledge base queries
- * @param queries - Number of knowledge base queries
- * @param rate - Rate per 1000 queries
- * @returns Cost in USD
- */
-export const calculateKnowledgeBaseQueriesCost = (queries: number, rate: number = BEDROCK_AGENTCORE_PRICING.knowledgeBaseQueryRate): number => {
-  if (queries < 0) return 0;
-  return (queries / PRICING_CONSTANTS.UNITS_PER_THOUSAND) * rate;
-};
-
-/**
- * Calculate cost for action group executions
- * @param executions - Number of action group executions
- * @param rate - Rate per 1000 executions
- * @returns Cost in USD
- */
-export const calculateActionGroupExecutionsCost = (executions: number, rate: number = BEDROCK_AGENTCORE_PRICING.actionGroupExecutionRate): number => {
-  if (executions < 0) return 0;
-  return (executions / PRICING_CONSTANTS.UNITS_PER_THOUSAND) * rate;
-};
-
-/**
- * Calculate cost for knowledge base storage
- * @param storageGB - Storage amount in GB
- * @param rate - Rate per GB per month
+ * Calculate cost for tool indexing
+ * @param toolCount - Number of tools indexed
+ * @param rate - Rate per 100 tools per month
  * @returns Monthly cost in USD
  */
-export const calculateStorageCost = (storageGB: number, rate: number = BEDROCK_AGENTCORE_PRICING.storageRatePerGB): number => {
-  if (storageGB < 0) return 0;
-  return storageGB * rate;
-};
-
-/**
- * Calculate cost for data ingestion
- * @param ingestionGB - Data ingestion amount in GB
- * @param rate - Rate per GB
- * @returns One-time cost in USD
- */
-export const calculateDataIngestionCost = (ingestionGB: number, rate: number = BEDROCK_AGENTCORE_PRICING.dataIngestionRatePerGB): number => {
-  if (ingestionGB < 0) return 0;
-  return ingestionGB * rate;
+export const calculateToolIndexingCost = (toolCount: number, rate: number): number => {
+  if (toolCount < 0) return 0;
+  return (toolCount / 100) * rate;
 };
 
 /**
@@ -132,20 +138,53 @@ export const calculateDataIngestionCost = (ingestionGB: number, rate: number = B
 export const calculateCostBreakdown = (usage: UsageParameters, customRates?: Partial<typeof BEDROCK_AGENTCORE_PRICING>): CostBreakdown => {
   const rates = { ...BEDROCK_AGENTCORE_PRICING, ...customRates };
   
-  const agentInvocationsCost = calculateAgentInvocationsCost(usage.agentInvocations, rates.agentInvocationRate);
-  const knowledgeBaseQueriesCost = calculateKnowledgeBaseQueriesCost(usage.knowledgeBaseQueries, rates.knowledgeBaseQueryRate);
-  const actionGroupExecutionsCost = calculateActionGroupExecutionsCost(usage.actionGroupExecutions, rates.actionGroupExecutionRate);
-  const storageCost = calculateStorageCost(usage.storageGB, rates.storageRatePerGB);
-  const dataIngestionCost = calculateDataIngestionCost(usage.dataIngestionGB, rates.dataIngestionRatePerGB);
+  // Runtime costs
+  const runtimeCpuCost = calculateCpuCost(usage.runtimeCpuHours, rates.runtimeCpuRate);
+  const runtimeMemoryCost = calculateMemoryCost(usage.runtimeMemoryGBHours, rates.runtimeMemoryRate);
   
-  const totalMonthlyCost = agentInvocationsCost + knowledgeBaseQueriesCost + actionGroupExecutionsCost + storageCost + dataIngestionCost;
+  // Browser Tool costs
+  const browserToolCpuCost = calculateCpuCost(usage.browserToolCpuHours, rates.browserToolCpuRate);
+  const browserToolMemoryCost = calculateMemoryCost(usage.browserToolMemoryGBHours, rates.browserToolMemoryRate);
+  
+  // Code Interpreter costs
+  const codeInterpreterCpuCost = calculateCpuCost(usage.codeInterpreterCpuHours, rates.codeInterpreterCpuRate);
+  const codeInterpreterMemoryCost = calculateMemoryCost(usage.codeInterpreterMemoryGBHours, rates.codeInterpreterMemoryRate);
+  
+  // Gateway costs
+  const gatewayApiInvocationsCost = calculateApiInvocationsCost(usage.gatewayApiInvocations, rates.gatewayApiInvocationRate);
+  const gatewaySearchApiCost = calculateApiInvocationsCost(usage.gatewaySearchApiInvocations, rates.gatewaySearchApiRate);
+  const gatewayToolIndexingCost = calculateToolIndexingCost(usage.gatewayToolIndexing, rates.gatewayToolIndexingRate);
+  
+  // Identity costs
+  const identityTokenRequestsCost = calculateApiInvocationsCost(usage.identityTokenRequests, rates.identityTokenRequestRate);
+  
+  // Memory service costs
+  const memoryShortTermEventsCost = calculateApiInvocationsCost(usage.memoryShortTermEvents, rates.memoryShortTermEventRate);
+  const memoryLongTermStorageBuiltInCost = calculateApiInvocationsCost(usage.memoryLongTermStorageBuiltIn, rates.memoryLongTermStorageBuiltInRate);
+  const memoryLongTermStorageCustomCost = calculateApiInvocationsCost(usage.memoryLongTermStorageCustom, rates.memoryLongTermStorageCustomRate);
+  const memoryLongTermRetrievalsCost = calculateApiInvocationsCost(usage.memoryLongTermRetrievals, rates.memoryLongTermRetrievalRate);
+  
+  const totalMonthlyCost = runtimeCpuCost + runtimeMemoryCost + browserToolCpuCost + browserToolMemoryCost + 
+                          codeInterpreterCpuCost + codeInterpreterMemoryCost + gatewayApiInvocationsCost + 
+                          gatewaySearchApiCost + gatewayToolIndexingCost + identityTokenRequestsCost +
+                          memoryShortTermEventsCost + memoryLongTermStorageBuiltInCost + 
+                          memoryLongTermStorageCustomCost + memoryLongTermRetrievalsCost;
   
   return {
-    agentInvocationsCost: roundToPrecision(agentInvocationsCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
-    knowledgeBaseQueriesCost: roundToPrecision(knowledgeBaseQueriesCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
-    actionGroupExecutionsCost: roundToPrecision(actionGroupExecutionsCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
-    storageCost: roundToPrecision(storageCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
-    dataIngestionCost: roundToPrecision(dataIngestionCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    runtimeCpuCost: roundToPrecision(runtimeCpuCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    runtimeMemoryCost: roundToPrecision(runtimeMemoryCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    browserToolCpuCost: roundToPrecision(browserToolCpuCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    browserToolMemoryCost: roundToPrecision(browserToolMemoryCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    codeInterpreterCpuCost: roundToPrecision(codeInterpreterCpuCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    codeInterpreterMemoryCost: roundToPrecision(codeInterpreterMemoryCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    gatewayApiInvocationsCost: roundToPrecision(gatewayApiInvocationsCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    gatewaySearchApiCost: roundToPrecision(gatewaySearchApiCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    gatewayToolIndexingCost: roundToPrecision(gatewayToolIndexingCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    identityTokenRequestsCost: roundToPrecision(identityTokenRequestsCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    memoryShortTermEventsCost: roundToPrecision(memoryShortTermEventsCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    memoryLongTermStorageBuiltInCost: roundToPrecision(memoryLongTermStorageBuiltInCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    memoryLongTermStorageCustomCost: roundToPrecision(memoryLongTermStorageCustomCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
+    memoryLongTermRetrievalsCost: roundToPrecision(memoryLongTermRetrievalsCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
     totalMonthlyCost: roundToPrecision(totalMonthlyCost, PRICING_CONSTANTS.CURRENCY_PRECISION),
   };
 };

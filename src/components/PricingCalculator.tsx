@@ -146,9 +146,9 @@ export const PricingCalculator: React.FC<PricingCalculatorProps> = ({
     <div className={`pricing-calculator ${className}`}>
       {/* Application Header */}
       <header className="calculator-header">
-        <h1>AWS Bedrock AgentCore Pricing Calculator</h1>
+        <h1>AWS Bedrock AgentCore & Memory Pricing Calculator</h1>
         <p className="calculator-description">
-          Estimate your monthly costs for AWS Bedrock AgentCore services based on your expected usage patterns.
+          Estimate your monthly costs for AWS Bedrock AgentCore and Memory services based on your expected usage patterns.
         </p>
       </header>
 
@@ -192,7 +192,7 @@ export const PricingCalculator: React.FC<PricingCalculatorProps> = ({
             </h2>
             <UsageInputForm
               usageParameters={usageParameters}
-              onUsageChange={handleUsageChange}
+              onSubmit={handleUsageChange}
               disabled={isCalculating}
             />
             
@@ -241,7 +241,7 @@ export const PricingCalculator: React.FC<PricingCalculatorProps> = ({
           <div className="disclaimer">
             <h3>Important Notes</h3>
             <ul>
-              <li>All cost estimates are based on current AWS Bedrock AgentCore pricing for US East (N. Virginia) region</li>
+              <li>All cost estimates are based on current AWS Bedrock AgentCore and Memory pricing for US East (N. Virginia) region</li>
               <li>Actual costs may vary based on your specific AWS region, usage patterns, and any applicable discounts</li>
               <li>This calculator is for estimation purposes only and does not constitute a pricing guarantee</li>
               <li>For the most up-to-date pricing information, please refer to the official AWS pricing page</li>
