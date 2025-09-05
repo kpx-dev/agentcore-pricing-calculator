@@ -1,25 +1,16 @@
 /* UsageInputForm Component Styles - Mobile First */
 
 .usage-input-form {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb;
-}
-
-@media (min-width: 768px) {
-  .usage-input-form {
-    padding: 32px;
-  }
+  /* Remove outer styling since it's now inside a section */
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* Form Header - Mobile First */
 .form-header {
   margin-bottom: 24px;
-  text-align: center;
+  text-align: left;
 }
 
 .form-header h2 {
@@ -69,6 +60,13 @@
   background: #f9fafb;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.form-section.has-values {
+  background: #f0fdf4;
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
 }
 
 .section-title {

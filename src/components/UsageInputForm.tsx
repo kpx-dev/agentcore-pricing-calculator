@@ -238,6 +238,17 @@ export const UsageInputForm: React.FC<UsageInputFormProps> = ({
     }
   }, [inputValues, onSubmit]);
 
+  // Sync input values when usageParameters change (e.g., from template selection)
+  useEffect(() => {
+    const newInputValues: Record<string, string> = {};
+    INPUT_FIELDS.forEach(field => {
+      newInputValues[field.key] = usageParameters[field.key].toString();
+    });
+    setInputValues(newInputValues);
+    // Clear validation errors when parameters are updated externally
+    setValidationErrors({});
+  }, [usageParameters]);
+
   // Handle input changes with real-time validation
   const handleInputChange = useCallback((fieldKey: string, value: string) => {
     const field = INPUT_FIELDS.find(f => f.key === fieldKey);
@@ -298,7 +309,7 @@ export const UsageInputForm: React.FC<UsageInputFormProps> = ({
 
       <form className="input-form" onSubmit={handleSubmit}>
         {/* Runtime Section */}
-        <div className="form-section">
+        <div className={`form-section ${INPUT_FIELDS.filter(field => field.key.startsWith('runtime')).some(field => usageParameters[field.key] > 0) ? 'has-values' : ''}`}>
           <h3 className="section-title">Runtime</h3>
           <p className="section-description">Consumption-based pricing for runtime execution</p>
           {INPUT_FIELDS.filter(field => field.key.startsWith('runtime')).map((field) => {
@@ -340,7 +351,7 @@ export const UsageInputForm: React.FC<UsageInputFormProps> = ({
         </div>
 
         {/* Browser Tool Section */}
-        <div className="form-section">
+        <div className={`form-section ${INPUT_FIELDS.filter(field => field.key.startsWith('browserTool')).some(field => usageParameters[field.key] > 0) ? 'has-values' : ''}`}>
           <h3 className="section-title">Browser Tool</h3>
           <p className="section-description">Consumption-based pricing for browser tool operations</p>
           {INPUT_FIELDS.filter(field => field.key.startsWith('browserTool')).map((field) => {
@@ -382,7 +393,7 @@ export const UsageInputForm: React.FC<UsageInputFormProps> = ({
         </div>
 
         {/* Code Interpreter Section */}
-        <div className="form-section">
+        <div className={`form-section ${INPUT_FIELDS.filter(field => field.key.startsWith('codeInterpreter')).some(field => usageParameters[field.key] > 0) ? 'has-values' : ''}`}>
           <h3 className="section-title">Code Interpreter</h3>
           <p className="section-description">Consumption-based pricing for code interpreter operations</p>
           {INPUT_FIELDS.filter(field => field.key.startsWith('codeInterpreter')).map((field) => {
@@ -424,7 +435,7 @@ export const UsageInputForm: React.FC<UsageInputFormProps> = ({
         </div>
 
         {/* Gateway Section */}
-        <div className="form-section">
+        <div className={`form-section ${INPUT_FIELDS.filter(field => field.key.startsWith('gateway')).some(field => usageParameters[field.key] > 0) ? 'has-values' : ''}`}>
           <h3 className="section-title">Gateway</h3>
           <p className="section-description">Consumption-based pricing for gateway API operations</p>
           {INPUT_FIELDS.filter(field => field.key.startsWith('gateway')).map((field) => {
@@ -466,7 +477,7 @@ export const UsageInputForm: React.FC<UsageInputFormProps> = ({
         </div>
 
         {/* Identity Section */}
-        <div className="form-section">
+        <div className={`form-section ${INPUT_FIELDS.filter(field => field.key.startsWith('identity')).some(field => usageParameters[field.key] > 0) ? 'has-values' : ''}`}>
           <h3 className="section-title">Identity</h3>
           <p className="section-description">Consumption-based pricing for identity operations</p>
           {INPUT_FIELDS.filter(field => field.key.startsWith('identity')).map((field) => {
@@ -508,7 +519,7 @@ export const UsageInputForm: React.FC<UsageInputFormProps> = ({
         </div>
 
         {/* Memory Section */}
-        <div className="form-section">
+        <div className={`form-section ${INPUT_FIELDS.filter(field => field.key.startsWith('memory')).some(field => usageParameters[field.key] > 0) ? 'has-values' : ''}`}>
           <h3 className="section-title">Memory</h3>
           <p className="section-description">Consumption-based pricing for memory operations</p>
           {INPUT_FIELDS.filter(field => field.key.startsWith('memory')).map((field) => {

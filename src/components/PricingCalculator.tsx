@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { UsageParameters, CostBreakdown } from '../types';
 import { calculateCostBreakdown, DEFAULT_USAGE, sanitizeUsageParameters } from '../utils/pricing-utils';
-import { UsageInputForm, CostBreakdown as CostBreakdownComponent, ExportResults } from './index';
+import { UsageInputForm, CostBreakdown as CostBreakdownComponent, ExportResults, ScenarioTemplates } from './index';
 import './PricingCalculator.css';
 import './ErrorBoundary.css';
 
@@ -97,23 +97,7 @@ export const PricingCalculator: React.FC<PricingCalculatorProps> = ({
     }
   }, []);
 
-  /**
-   * Reset calculator to default state
-   */
-  const handleReset = useCallback(() => {
-    try {
-      setAppError(null);
-      setUsageParameters(DEFAULT_USAGE);
-      setCostBreakdown(calculateCostBreakdown(DEFAULT_USAGE));
-    } catch (error) {
-      console.error('Reset error:', error);
-      setAppError({
-        type: 'general',
-        message: 'Failed to reset calculator',
-        details: error instanceof Error ? error.message : 'Unknown error occurred',
-      });
-    }
-  }, []);
+
 
   /**
    * Clear current error state
@@ -185,6 +169,17 @@ export const PricingCalculator: React.FC<PricingCalculatorProps> = ({
       {/* Main Calculator Content */}
       <main className="calculator-content">
         <div className="calculator-grid">
+          {/* Scenario Templates Section */}
+          <section className="templates-section" aria-labelledby="templates-section-title">
+            <h2 id="templates-section-title" className="section-title visually-hidden">
+              Scenario Templates
+            </h2>
+            <ScenarioTemplates
+              onTemplateSelect={handleUsageChange}
+              disabled={isCalculating}
+            />
+          </section>
+
           {/* Input Section */}
           <section className="input-section" aria-labelledby="input-section-title">
             <h2 id="input-section-title" className="section-title visually-hidden">
@@ -195,20 +190,6 @@ export const PricingCalculator: React.FC<PricingCalculatorProps> = ({
               onSubmit={handleUsageChange}
               disabled={isCalculating}
             />
-            
-            {/* Reset Button */}
-            {hasUsageData && (
-              <div className="input-actions">
-                <button
-                  className="reset-button"
-                  onClick={handleReset}
-                  disabled={isCalculating}
-                  aria-label="Reset all usage parameters to zero"
-                >
-                  🔄 Reset Calculator
-                </button>
-              </div>
-            )}
           </section>
 
           {/* Results Section */}

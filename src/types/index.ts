@@ -95,3 +95,6 @@ export interface PricingRates {
   lastUpdated: string; // ISO date string
   sourceUrl: string; // AWS pricing page URL
 }
+
+// Re-export scenario templates
+export * from './scenario-templates';

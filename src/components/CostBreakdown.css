@@ -1,19 +1,10 @@
 /* CostBreakdown Component Styles - Mobile First */
 
 .cost-breakdown {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb;
-}
-
-@media (min-width: 768px) {
-  .cost-breakdown {
-    padding: 32px;
-  }
+  /* Remove outer styling since it's now inside a section */
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .cost-breakdown.loading {
@@ -26,7 +17,7 @@
 /* Breakdown Header - Mobile First */
 .breakdown-header {
   margin-bottom: 24px;
-  text-align: center;
+  text-align: left;
 }
 
 .breakdown-header h2 {
