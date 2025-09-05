@@ -6,11 +6,7 @@
   "homepage": "https://kpx-dev.github.io/agentcore-pricing-calculator",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
-    "type-check": "tsc --noEmit",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d public"
+    "build": "BUILD_PATH=docs react-scripts build"
   },
   "dependencies": {
     "react": "^18.2.0",

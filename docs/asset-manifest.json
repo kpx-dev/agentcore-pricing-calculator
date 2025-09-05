@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/agentcore-pricing-calculator/static/css/main.f1619ef7.css",
+    "main.js": "/agentcore-pricing-calculator/static/js/main.5035b61c.js",
+    "index.html": "/agentcore-pricing-calculator/index.html",
+    "main.f1619ef7.css.map": "/agentcore-pricing-calculator/static/css/main.f1619ef7.css.map",
+    "main.5035b61c.js.map": "/agentcore-pricing-calculator/static/js/main.5035b61c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f1619ef7.css",
+    "static/js/main.5035b61c.js"
+  ]
+}
