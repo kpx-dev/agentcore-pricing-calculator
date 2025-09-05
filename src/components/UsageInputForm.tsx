@@ -276,7 +276,7 @@ export const UsageInputForm: React.FC<UsageInputFormProps> = ({
     });
   }, []);
 
-  // Handle input blur for additional validation
+  // Handle input blur for validation and auto-refresh
   const handleInputBlur = useCallback((fieldKey: string) => {
     const field = INPUT_FIELDS.find(f => f.key === fieldKey);
     if (!field) return;
@@ -296,7 +296,19 @@ export const UsageInputForm: React.FC<UsageInputFormProps> = ({
       
       return newErrors;
     });
-  }, [inputValues]);
+
+    // Auto-refresh: If validation is successful, trigger calculation when moving to next field
+    if (validation.isValid && validation.sanitizedValue !== null) {
+      // Create updated parameters with the new value
+      const updatedParameters: UsageParameters = {
+        ...usageParameters,
+        [fieldKey]: validation.sanitizedValue,
+      };
+      
+      // Trigger calculation with updated parameters
+      onSubmit(updatedParameters);
+    }
+  }, [inputValues, usageParameters, onSubmit]);
 
   return (
     <div className="usage-input-form">

@@ -306,16 +306,13 @@ export const CostBreakdown: React.FC<CostBreakdownProps> = ({
           <p className="pricing-source">
             Pricing based on{' '}
             <a 
-              href={BEDROCK_AGENTCORE_PRICING.sourceUrl}
+              href="https://aws.amazon.com/bedrock/agentcore/pricing/"
               target="_blank"
               rel="noopener noreferrer"
               className="pricing-link"
             >
-              AWS Bedrock AgentCore & Memory Pricing
+              AWS Bedrock AgentCore
             </a>
-          </p>
-          <p className="pricing-updated">
-            Last updated: {new Date(BEDROCK_AGENTCORE_PRICING.lastUpdated).toLocaleDateString()}
           </p>
         </div>
         
