@@ -17,9 +17,9 @@ export const USAGE_LIMITS = {
   MIN_VALUE: 0,
   MAX_CPU_HOURS: 100_000, // 100k vCPU-hours per month
   MAX_MEMORY_GB_HOURS: 1_000_000, // 1M GB-hours per month
-  MAX_API_INVOCATIONS: 100_000_000, // 100 million invocations
+  MAX_API_INVOCATIONS: 1_000_000_000, // 1 billion invocations (increased to support HR Assistant scenario)
   MAX_TOOL_INDEXING: 100_000, // 100k tools
-  MAX_TOKEN_REQUESTS: 100_000_000, // 100 million requests
+  MAX_TOKEN_REQUESTS: 1_000_000_000, // 1 billion requests (increased for consistency)
 } as const;
 
 /**

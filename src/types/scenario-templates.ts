@@ -69,8 +69,8 @@ export const SCENARIO_TEMPLATES: ScenarioTemplate[] = [
     usageParameters: {
       runtimeCpuHours: 0,
       runtimeMemoryGBHours: 0,
-      // Browser: 100K sessions × 120 seconds × 20% active × 2 vCPU = 1,333 vCPU-hours
-      browserToolCpuHours: 1333,
+      // Browser: 100K sessions × 120 seconds × 2 vCPU ÷ 3600 = 6,667 vCPU-hours
+      browserToolCpuHours: 6667,
       // Browser: 100K sessions × 600 seconds × 4GB = 66,667 GB-hours
       browserToolMemoryGBHours: 66667,
       codeInterpreterCpuHours: 0,
@@ -88,7 +88,7 @@ export const SCENARIO_TEMPLATES: ScenarioTemplate[] = [
       useCase: 'Travel booking AI agent automating full trip planning and booking',
       monthlyRequests: 100000,
       sessionDuration: '10 minutes',
-      cpuUtilization: '2 vCPU with 80% I/O wait time (2 minutes active)',
+      cpuUtilization: '2 vCPU with 80% I/O wait time (120 seconds active)',
       memoryUsage: '4GB continuously',
       keyFeatures: [
         'Headless browser automation',
